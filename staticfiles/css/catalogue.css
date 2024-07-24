@@ -1,0 +1,52 @@
+/* Styles specific to the catalogue page */
+.catalogue-title {
+    font-size: 40px;
+    color: #007bff;
+    text-align: center;
+    margin-top: 0;
+}
+
+/* Transparency and styling for the catalogue table container */
+.catalogue-table {
+    background-color: transparent; /* Fully transparent background */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure child elements respect parent's padding and border-radius */
+}
+
+/* Transparency and styling for the catalogue table itself */
+.catalogue-table .table {
+    background-color: transparent !important; /* Fully transparent background for table */
+    margin-bottom: 0; /* Remove margin if needed */
+}
+
+/* Add some padding to the table rows */
+.catalogue-table .table td,
+.catalogue-table .table th {
+    vertical-align: middle;
+    text-align: center;
+    padding: 15px;
+    background-color: rgba(248, 249, 250, 0.9); /* Slightly transparent header */
+}
+
+/* Table header background color */
+.catalogue-table .thead-light th {
+        background-color: transparent !important; /* Fully transparent background for table */
+}
+
+.catalogue-table th {
+    color: #007bff;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.catalogue-table tbody tr td a {
+    color: black;
+    text-decoration: none;
+}
+
+.catalogue-table tbody tr td a:hover {
+    color: blue;
+    text-decoration: underline;
+}

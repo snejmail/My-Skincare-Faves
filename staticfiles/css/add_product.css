@@ -1,0 +1,41 @@
+/* Add this to your main CSS file or a dedicated CSS file */
+
+.form-card {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-top: 50px; /* Add some top margin to center vertically */
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    text-align: center; /* Center the heading */
+}
+
+.form-card p {
+    margin-bottom: 20px;
+}
+
+.form-card form {
+    margin-top: 20px;
+}
+
+.form-card .btn {
+    margin: 5px; /* Add some space between the buttons */
+}
+
+/* Optional: Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 20px;
+    }
+
+    .form-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-card p {
+        font-size: 1rem;
+    }
+}

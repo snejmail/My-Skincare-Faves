@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<div class="container mt-5">
+        <h2 class="text-center">Delete Product</h2>
+    <div class="form-card">
+        <p>Are you sure you want to delete "{{ object.name }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="{% url 'product_details' object.pk %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

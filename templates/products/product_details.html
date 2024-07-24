@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="form-card">
+            <h2 class="text-center">{{ product.name }} Details</h2>
+            <div class="text-left">
+                <p><strong>Type:</strong> {{ product.get_product_type_display }}</p>
+                <p><strong>Size:</strong> {{ product.package_size_in_milliliters }} ml</p>
+                <p><strong>Price:</strong> {{ product.price }} BGN</p>
+                <p><strong>Description:</strong> {{ product.description }}</p>
+                <p><strong>Key Ingredients:</strong> {{ product.key_ingredients }}</p>
+            </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'edit_product' product.pk %}" class="btn btn-primary">Edit Product</a>
+                <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger">Delete Product</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

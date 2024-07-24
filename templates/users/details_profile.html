@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="form-card">
+            <h2>{{ user.username }}'s Profile</h2> 
+            <div class="text-left">
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Skin type:</strong> {{ user.get_skin_type_display }}</p>
+            </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'update_user' user.pk %}" class="btn btn-primary">Edit Profile</a>
+                <a href="{% url 'delete_user' user.pk %}" class="btn btn-danger">Delete Profile</a>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    
+{% endblock %}
