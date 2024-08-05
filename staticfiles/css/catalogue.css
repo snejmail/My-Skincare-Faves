@@ -1,7 +1,7 @@
 /* Styles specific to the catalogue page */
 .catalogue-title {
     font-size: 40px;
-    color: #007bff;
+    color: #ff546c;
     text-align: center;
     margin-top: 0;
 }
@@ -36,7 +36,7 @@
 }
 
 .catalogue-table th {
-    color: #007bff;
+    color: #ff546c;
     font-size: 30px;
     font-weight: bold;
 }
@@ -49,4 +49,25 @@
 .catalogue-table tbody tr td a:hover {
     color: blue;
     text-decoration: underline;
+}
+
+.sort-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sort-form label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.sort-form select {
+    display: inline-block;
+    width: auto;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ff546c;
+    color: #ff546c;
 }

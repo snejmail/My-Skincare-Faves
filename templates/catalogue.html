@@ -3,6 +3,16 @@
 
 <div class="container mt-5">
     <h1 class="catalogue-title">My Skincare Catalogue</h1>
+    
+    <form method="get" class="sort-form mb-3">
+        <label for="sort_by">Sort by:</label>
+        <select name="sort_by" id="sort_by" class="form-control" onchange="this.form.submit()">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="type">Type</option>
+        </select>
+    </form>    
+
     <div class="catalogue-table">
         <table class="table table-hover">
             <thead class="thead-light">
@@ -11,6 +21,7 @@
                     <th scope="col">Type</th>
                     <th scope="col">Size (ml)</th>
                     <th scope="col">Price (BGN)</th>
+                    <th scope="col">Liked</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,11 +31,21 @@
                     <td>{{ product.get_product_type_display }}</td>
                     <td>{{ product.package_size_in_milliliters }}</td>
                     <td>{{ product.price }}</td>
+                    <td>
+                        {% if product.id in liked_products %}
+                            <span>&#x2764;</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'add_product' %}" class="btn btn-primary">Add another product</a>
+    </div>
+
 </div>
 
 {% endblock %}

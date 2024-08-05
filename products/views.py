@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views import generic as views
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 
@@ -16,7 +16,22 @@ class CatalogueView(LoginRequiredMixin, views.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return user.favorite_products.all()
+        queryset = user.favorite_products.all()
+
+        sort_by = self.request.GET.get('sort_by', 'name')
+        if sort_by == 'price':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'type':
+            queryset = queryset.order_by('product_type')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        liked_products = user.likes.values_list('product_id', flat=True)
+        context["liked_products"] = liked_products
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, views.CreateView):
@@ -36,6 +51,13 @@ class ProductDetailView(LoginRequiredMixin, views.DetailView):
     template_name = 'products/product_details.html'
     context_object_name = 'product'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        user = self.request.user
+        context['user_has_liked'] = product.likes.filter(user=user).exists()
+        return context
+
 
 class ProductUpdateView(LoginRequiredMixin, views.UpdateView):
     model = Product
@@ -52,7 +74,12 @@ class ProductDeleteView(LoginRequiredMixin, views.DeleteView):
 
 @login_required
 def like_product(request, pk):
-    pass
+    product = get_object_or_404(Product, pk=pk)
+    like, created = Like.objects.get_or_create(user=request.user, product=product)
+    if not created:
+        like.delete()
+
+    return redirect('product_details', pk=pk)
 
 
 def review_product(request, pk):

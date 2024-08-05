@@ -15,7 +15,15 @@
             <div class="text-center mt-3">
                 <a href="{% url 'edit_product' product.pk %}" class="btn btn-primary">Edit Product</a>
                 <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger">Delete Product</a>
+                <a href="{% url 'like_product' product.pk %}" class="btn btn-info">
+                    {% if user_has_liked %}
+                        Unlike
+                    {% else %}
+                        Like
+                    {% endif %}
+                </a>
             </div>
+
         </div>
     </div>
 </div>
