@@ -11,7 +11,9 @@
                 <p><strong>Price:</strong> {{ product.price }} BGN</p>
                 <p><strong>Description:</strong> {{ product.description }}</p>
                 <p><strong>Key Ingredients:</strong> {{ product.key_ingredients }}</p>
+                <p><strong>Likes:</strong> {{ like_count }}</p>
             </div>
+        
             <div class="text-center mt-3">
                 <a href="{% url 'edit_product' product.pk %}" class="btn btn-primary">Edit Product</a>
                 <a href="{% url 'delete_product' product.pk %}" class="btn btn-danger">Delete Product</a>
@@ -27,5 +29,5 @@
         </div>
     </div>
 </div>
-
+    
 {% endblock %}

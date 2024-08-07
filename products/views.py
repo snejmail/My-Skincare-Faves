@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db import models
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.shortcuts import render, redirect, get_object_or_404
@@ -29,8 +30,26 @@ class CatalogueView(LoginRequiredMixin, views.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        liked_products = user.likes.values_list('product_id', flat=True)
-        context["liked_products"] = liked_products
+
+        # Annotate like counts for user and other users' products
+        user_products = user.favorite_products.all().annotate(like_count=models.Count('likes'))
+        other_users_products = Product.objects.exclude(id__in=user.favorite_products.values_list('id', flat=True))
+        other_users_products = other_users_products.annotate(like_count=models.Count('likes'))
+
+        # Create a map for like counts of other users' products
+        like_count_map = {product.name.lower(): product.like_count for product in other_users_products}
+
+        # Update user products with the like count from the other users' products map
+        for product in user_products:
+            product_name = product.name.lower()
+            # Fetch like count from the map if it exists
+            product.like_count = like_count_map.get(product_name, 0)
+
+        # Add context data
+        context["liked_products"] = user.likes.values_list('product_id', flat=True)
+        context["other_users_products"] = other_users_products
+        context["user_products"] = user_products
+
         return context
 
 
@@ -79,7 +98,7 @@ def like_product(request, pk):
     if not created:
         like.delete()
 
-    return redirect('product_details', pk=pk)
+    return redirect('catalogue')
 
 
 def review_product(request, pk):
