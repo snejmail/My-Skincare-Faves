@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.urls import reverse_lazy
@@ -31,21 +33,16 @@ class CatalogueView(LoginRequiredMixin, views.ListView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
-        # Annotate like counts for user and other users' products
         user_products = user.favorite_products.all().annotate(like_count=models.Count('likes'))
         other_users_products = Product.objects.exclude(id__in=user.favorite_products.values_list('id', flat=True))
         other_users_products = other_users_products.annotate(like_count=models.Count('likes'))
 
-        # Create a map for like counts of other users' products
         like_count_map = {product.name.lower(): product.like_count for product in other_users_products}
 
-        # Update user products with the like count from the other users' products map
         for product in user_products:
             product_name = product.name.lower()
-            # Fetch like count from the map if it exists
             product.like_count = like_count_map.get(product_name, 0)
 
-        # Add context data
         context["liked_products"] = user.likes.values_list('product_id', flat=True)
         context["other_users_products"] = other_users_products
         context["user_products"] = user_products
@@ -75,6 +72,7 @@ class ProductDetailView(LoginRequiredMixin, views.DetailView):
         product = self.get_object()
         user = self.request.user
         context['user_has_liked'] = product.likes.filter(user=user).exists()
+        context['reviews'] = product.reviews.all()
         return context
 
 
@@ -101,6 +99,31 @@ def like_product(request, pk):
     return redirect('catalogue')
 
 
+@login_required
 def review_product(request, pk):
-    pass
+    product = get_object_or_404(Product, pk=pk)
 
+    existing_review = Review.objects.filter(product=product, user=request.user).first()
+    if existing_review:
+        messages.error(request, 'You have already reviewed this product.')
+        return redirect('product_details', pk=pk)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.created_at = timezone.now()
+            review.save()
+            messages.success(request, "Your review has been submitted.")
+            return redirect('product_details', pk=pk)
+    else:
+        form = ReviewForm()
+
+    context = {
+        'form': form,
+        'product': product,
+    }
+
+    return render(request, 'products/review_product.html', context)

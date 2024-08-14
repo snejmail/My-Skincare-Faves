@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h3 class="text-center">Leave a review for<br>
+                    <span style="color: #ff546c;">{{ product.name }}</span>
+                </h3>
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.text }}
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

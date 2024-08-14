@@ -34,6 +34,9 @@
                     <td>{{ product.package_size_in_milliliters }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.like_count }}</td>
+                <td>
+                    <a href="{% url 'review_product' product.pk %}" class="btn btn-secondary btn-sm">Leave Review</a>
+                </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -54,7 +57,7 @@
                     <th scope="col">Size (ml)</th>
                     <th scope="col">Price (BGN)</th>
                     <th scope="col">Likes</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -76,6 +79,9 @@
                                 {% endif %}
                             </button>
                         </form>
+                    </td>
+                    <td>
+                        <a href="{% url 'review_product' product.pk %}" class="btn btn-secondary btn-sm">Leave Review</a>
                     </td>
                 </tr>
             {% endfor %}

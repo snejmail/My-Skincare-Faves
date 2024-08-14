@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from users.models import User
 
@@ -73,4 +74,26 @@ class Like(models.Model):
 
 
 class Review(models.Model):
-    pass
+    product = models.ForeignKey(
+        to=Product,
+        on_delete=models.CASCADE,
+        related_name='reviews',
+    )
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+    )
+    text = models.TextField()
+    created_at = models.DateTimeField(
+        default=timezone.now,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'product'], name='unique_review'
+            )
+        ]
+
+    def __str__(self):
+        return f"Review by {self.user} on {self.product.name}"

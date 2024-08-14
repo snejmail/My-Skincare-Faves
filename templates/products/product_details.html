@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block page_content %}
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-5">
     <div class="col-md-6">
         <div class="form-card">
             <h2 class="text-center">{{ product.name }} Details</h2>
@@ -11,8 +11,24 @@
                 <p><strong>Price:</strong> {{ product.price }} BGN</p>
                 <p><strong>Description:</strong> {{ product.description }}</p>
                 <p><strong>Key Ingredients:</strong> {{ product.key_ingredients }}</p>
-                <p><strong>Likes:</strong> {{ like_count }}</p>
+                <p><strong>Likes:</strong> {{ product.like_count }}</p>
+                <p><strong>Reviews:</strong></p>
+                <ul>
+                    {% for review in reviews %}
+                        <li><strong>{{ review.user.username }}: </strong>{{ review.text }}</li>
+                    {% empty %}
+                        <li>No reviews yet.</li>
+                    {% endfor %}
+                </ul>
             </div>
+        
+                {% if messages %}
+                    <div class="alert alert-info">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
         
             <div class="text-center mt-3">
                 <a href="{% url 'edit_product' product.pk %}" class="btn btn-primary">Edit Product</a>
@@ -24,8 +40,9 @@
                         Like
                     {% endif %}
                 </a>
+            <a href="{% url 'review_product' product.pk %}" class="btn btn-secondary">Leave Review</a>
+            
             </div>
-
         </div>
     </div>
 </div>
