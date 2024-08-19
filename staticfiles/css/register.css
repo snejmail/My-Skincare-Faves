@@ -1,0 +1,23 @@
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #6c757d;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.login-register-box button[type="submit"] {
+    margin-top: 20px;
+}
+
+.have-account {
+    text-align: center;
+    margin-top: 15px;
+}

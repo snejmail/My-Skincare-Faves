@@ -18,34 +18,50 @@ class CatalogueView(LoginRequiredMixin, views.ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = user.favorite_products.all()
-
-        sort_by = self.request.GET.get('sort_by', 'name')
-        if sort_by == 'price':
-            queryset = queryset.order_by('price')
-        elif sort_by == 'type':
-            queryset = queryset.order_by('product_type')
-
-        return queryset
+        return Product.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
+        user_sort_by = self.request.GET.get('user_sort_by', 'name')
+        user_order = self.request.GET.get('user_order', 'asc')
+        user_order_prefix = '' if user_order == 'asc' else '-'
+
+        other_sort_by = self.request.GET.get('other_sort_by', 'name')
+        other_order = self.request.GET.get('other_order', 'asc')
+        other_order_prefix = '' if other_order == 'asc' else '-'
+
         user_products = user.favorite_products.all().annotate(like_count=models.Count('likes'))
+
+        if user_sort_by == 'price':
+            user_products = user_products.order_by(f'{user_order_prefix}price')
+        elif user_sort_by == 'type':
+            user_products = user_products.order_by(f'{user_order_prefix}product_type')
+        elif user_sort_by == 'likes':
+            user_products = user_products.order_by(f'{user_order_prefix}like_count')
+        else:
+            user_products = user_products.order_by(f'{user_order_prefix}name')
+
         other_users_products = Product.objects.exclude(id__in=user.favorite_products.values_list('id', flat=True))
         other_users_products = other_users_products.annotate(like_count=models.Count('likes'))
 
-        like_count_map = {product.name.lower(): product.like_count for product in other_users_products}
+        if other_sort_by == 'price':
+            other_users_products = other_users_products.order_by(f'{other_order_prefix}price')
+        elif other_sort_by == 'type':
+            other_users_products = other_users_products.order_by(f'{other_order_prefix}product_type')
+        elif other_sort_by == 'likes':
+            other_users_products = other_users_products.order_by(f'{other_order_prefix}like_count')
+        else:
+            other_users_products = other_users_products.order_by(f'{other_order_prefix}name')
 
-        for product in user_products:
-            product_name = product.name.lower()
-            product.like_count = like_count_map.get(product_name, 0)
-
-        context["liked_products"] = user.likes.values_list('product_id', flat=True)
-        context["other_users_products"] = other_users_products
         context["user_products"] = user_products
+        context["other_users_products"] = other_users_products
+        context["user_sort_by"] = user_sort_by
+        context["user_order"] = user_order
+        context["other_sort_by"] = other_sort_by
+        context["other_order"] = other_order
+        context["liked_products"] = user.likes.values_list('product_id', flat=True)
 
         return context
 
@@ -71,8 +87,13 @@ class ProductDetailView(LoginRequiredMixin, views.DetailView):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
         user = self.request.user
+
+        product.like_count = product.likes.count()
+
         context['user_has_liked'] = product.likes.filter(user=user).exists()
         context['reviews'] = product.reviews.all()
+        context['product'] = product
+
         return context
 
 

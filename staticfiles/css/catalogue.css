@@ -32,12 +32,12 @@
 
 /* Table header background color */
 .catalogue-table .thead-light th {
-        background-color: transparent !important; /* Fully transparent background for table */
+    background-color: transparent !important; /* Fully transparent background for table */
 }
 
 .catalogue-table th {
-    color: #ff546c;
-    font-size: 30px;
+    color: black;
+    font-size: 25px;
     font-weight: bold;
 }
 
@@ -70,4 +70,46 @@
     border-radius: 5px;
     border: 1px solid #ff546c;
     color: #ff546c;
+}
+
+.btn-custom {
+    font-size: 16px; /* Match font size */
+    padding: 8px 16px; /* Adjust padding */
+    border-radius: 4px; /* Consistent border radius */
+    border: 1px solid transparent; /* Ensure border style matches */
+    display: inline-block;
+    text-align: center;
+    background-color: #ff9000; /* Customize background color */
+    color: white; /* Button text color */
+    text-decoration: none;
+}
+
+.btn-custom:hover {
+    background-color: #ff5915;
+    color: black;
+    text-decoration: none;/* Darker shade on hover */
+}
+
+.btn-custom:hover, .btn-custom:focus {
+    color: white !important; /* Ensure text color remains white */
+    text-decoration: none !important; /* No underline */
+}
+
+/* Ensure Like and Unlike buttons are consistent */
+.btn-info {
+    font-size: 16px; /* Match font size */
+    padding: 8px 16px; /* Adjust padding */
+    border-radius: 4px; /* Consistent border radius */
+    color: white; /* Button text color */
+    background-color: #17a2b8; /* Customize background color */
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    color: black;/* Darker shade on hover */
+}
+
+a {
+    text-decoration: none !important;
+    color: inherit;
 }

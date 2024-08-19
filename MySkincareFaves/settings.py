@@ -145,6 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'  # Replace 'yourapp' with your actual app name and 'CustomUser' with your custom user model
 
+LOGIN_URL = 'login_page'
 # settings.py
 
 # AUTHENTICATION_BACKENDS = [

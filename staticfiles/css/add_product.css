@@ -1,16 +1,51 @@
-/* Add this to your main CSS file or a dedicated CSS file */
+.container {
+    padding-bottom: 50px;
+}
 
 .form-card {
-    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-    padding: 30px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    margin-top: 50px; /* Add some top margin to center vertically */
+    margin: 20px auto 50px auto;
+    max-width: 500px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    width: 100%;
+    height: 30px;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*resize: vertical;*/
+}
+
+.btn-primary {
+    margin-top: 15px;
+    padding: 10px 20px;
+    width: 100%;
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
 .form-card h2 {
     margin-bottom: 20px;
-    text-align: center; /* Center the heading */
+    text-align: center;
 }
 
 .form-card p {
@@ -22,14 +57,14 @@
 }
 
 .form-card .btn {
-    margin: 5px; /* Add some space between the buttons */
+    margin: 5px;
 }
 
-/* Optional: Responsive design for smaller screens */
 @media (max-width: 768px) {
     .form-card {
         padding: 20px;
     }
+}
 
     .form-card h2 {
         font-size: 1.5rem;
@@ -38,4 +73,3 @@
     .form-card p {
         font-size: 1rem;
     }
-}

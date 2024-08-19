@@ -6,12 +6,19 @@
 <div class="container mt-5">
     <h1 class="catalogue-title">My Skincare Catalogue</h1>
     
-    <form method="get" class="sort-form mb-3">
-        <label for="sort_by">Sort by:</label>
-        <select name="sort_by" id="sort_by" class="form-control" onchange="this.form.submit()">
-            <option value="name">Name</option>
-            <option value="price">Price</option>
-            <option value="type">Type</option>
+    <form method="get" class="sort-form mb-3 align-items-center">
+        <label for="user_sort_by" class="mr-2">Sort by:</label>
+        <select name="user_sort_by" id="user_sort_by" class="form-control mr-3" onchange="this.form.submit()">
+            <option value="name" {% if user_sort_by == 'name' %}selected{% endif %}>Name</option>
+            <option value="price" {% if user_sort_by == 'price' %}selected{% endif %}>Price</option>
+            <option value="type" {% if user_sort_by == 'type' %}selected{% endif %}>Type</option>
+            <option value="likes" {% if user_sort_by == 'likes' %}selected{% endif %}>Likes</option>
+        </select>
+    
+        <label for="user_order" class="mr-2">Order</label>
+        <select name="user_order" id="user_order" class="form-control mr-3" onchange="this.form.submit()">
+            <option value="asc" {% if user_order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if user_order == 'desc' %}selected{% endif %}>Descending</option>
         </select>
     </form>    
 
@@ -34,9 +41,9 @@
                     <td>{{ product.package_size_in_milliliters }}</td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.like_count }}</td>
-                <td>
-                    <a href="{% url 'review_product' product.pk %}" class="btn btn-secondary btn-sm">Leave Review</a>
-                </td>
+                    <td>
+                        <a href="{% url 'review_product' product.pk %}" class="btn btn-custom">Leave Review</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -49,6 +56,23 @@
 
     <div class="catalogue-table mt-5">
     <h2 class="catalogue-title">Other Users' Favorite Products</h2>
+    
+    <form method="get" class="sort-form mb-3 align-items-center">
+        <label for="other_sort_by" class="mr-2">Sort by:</label>
+        <select name="other_sort_by" id="other_sort_by" class="form-control mr-3" onchange="this.form.submit()">
+            <option value="name" {% if other_sort_by == 'name' %}selected{% endif %}>Name</option>
+            <option value="price" {% if other_sort_by == 'price' %}selected{% endif %}>Price</option>
+            <option value="type" {% if other_sort_by == 'type' %}selected{% endif %}>Type</option>
+            <option value="likes" {% if other_sort_by == 'likes' %}selected{% endif %}>Likes</option>
+        </select>
+    
+        <label for="other_order" class="mr-2">Order</label>
+        <select name="other_order" id="other_order" class="form-control mr-3" onchange="this.form.submit()">
+            <option value="asc" {% if other_order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if other_order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+    </form>     
+    
         <table class="table table-hover">
             <thead class="thead-light">
                 <tr>
@@ -73,15 +97,15 @@
                         {% csrf_token %}
                             <button type="submit" class="btn btn-info">
                                 {% if product.id in liked_products %}
-                                    <a href="{% url 'like_product' product.pk %}" class="btn btn-info">Unlike</a>
+                                        Unlike
                                 {% else %}
-                                    <a href="{% url 'like_product' product.pk %}" class="btn btn-info">Like</a>
+                                        Like
                                 {% endif %}
                             </button>
                         </form>
                     </td>
                     <td>
-                        <a href="{% url 'review_product' product.pk %}" class="btn btn-secondary btn-sm">Leave Review</a>
+                        <a href="{% url 'review_product' product.pk %}" class="btn btn-custom">Leave Review</a>
                     </td>
                 </tr>
             {% endfor %}

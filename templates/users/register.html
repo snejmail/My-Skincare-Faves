@@ -7,8 +7,34 @@
             
             <form action="{% url 'register_user' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Register</button>
+                
+                <div class="form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password1.label_tag }}
+                    {{ form.password1 }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.password2.label_tag }}
+                    {{ form.password2 }}
+                    <small>{{ form.password2.help_text }}</small>
+                </div>
+                
+                <div class="form-group">
+                    {{ form.skin_type.label_tag }}
+                    {{ form.skin_type }}
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Register</button>
                 <p class="have-account">Already have an account?
                     <a href="{% url 'login_user' %}" class="btn btn-link">Log in</a>
                 </p>

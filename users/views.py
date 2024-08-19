@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -18,9 +19,9 @@ class UserRegisterView(views.CreateView):
     success_url = reverse_lazy('login_user')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        login(self.request, self.object)
-        return response
+        response = super().form_valid(form)  # Ensure parent behavior is maintained
+        messages.success(self.request, 'Account was created for ' + self.object.username)
+        return redirect(self.get_success_url())
 
 
 class CustomLoginView(auth_views.LoginView):

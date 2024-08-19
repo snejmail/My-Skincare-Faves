@@ -6,6 +6,10 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        widgets = {
+            'description': forms.Textarea(attrs={'cols': 40, 'rows': 4}),
+            'key_ingredients': forms.Textarea(attrs={'cols': 40, 'rows': 4}),
+        }
 
 
 class ReviewForm(forms.ModelForm):
